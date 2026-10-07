@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GO AHEAD — Safety Intelligence</title>
+<meta name="description" content="GO AHEAD digital safety platform for AURA-GUARD.">
+<style>
+:root{
+  --bg:#05070c;
+  --bg2:#080c14;
+  --panel:rgba(14,20,32,.82);
+  --panel2:rgba(18,26,42,.82);
+  --line:rgba(255,255,255,.08);
+  --line2:rgba(110,228,255,.16);
+  --text:#f5f8ff;
+  --muted:#8996aa;
+  --cyan:#68e1ff;
+  --blue:#6988ff;
+  --green:#6de7aa;
+  --yellow:#ffd166;
+  --red:#ff657d;
+  --purple:#b388ff;
+  --shadow:0 24px 80px rgba(0,0,0,.42);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(900px 500px at 78% -6%,rgba(105,136,255,.20),transparent 60%),
+    radial-gradient(700px 430px at 2% 90%,rgba(104,225,255,.10),transparent 58%),
+    linear-gradient(180deg,#04060a,#070b12 46%,#05070c);
+  min-height:100vh; overflow-x:hidden;
+}
+button,input{font:inherit}
+button{color:inherit}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:7px}::-webkit-scrollbar-thumb{background:#1d2a40;border-radius:20px}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:264px;flex:0 0 264px;height:100vh;position:sticky;top:0;z-index:30;
+  border-right:1px solid var(--line);background:rgba(5,8,13,.72);backdrop-filter:blur(24px);
+  padding:20px 15px;display:flex;flex-direction:column;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:8px 9px 20px}
+.logo-mark{
+  width:34px;height:34px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));color:#04111a;font-weight:1000;
+  box-shadow:0 12px 40px rgba(104,225,255,.25)
+}
+.brand-name{font-size:14px;font-weight:950;letter-spacing:.13em}
+.brand-name span{color:var(--cyan)}
+.beta{
+  margin-left:auto;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--cyan);
+  border:1px solid var(--line2);padding:5px 7px;border-radius:999px;background:rgba(104,225,255,.05)
+}
+.section-label{padding:16px 10px 7px;color:#5e6b80;font-size:9px;font-weight:900;letter-spacing:.17em;text-transform:uppercase}
+.nav{display:grid;gap:5px}
+.nav button{
+  border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;
+  padding:11px 12px;border-radius:13px;text-align:left;font-weight:700;font-size:12px;
+  display:flex;align-items:center;gap:10px;transition:.2s;
+}
+.nav button .ico{width:19px;text-align:center;color:#71809a}
+.nav button:hover,.nav button.active{background:linear-gradient(90deg,rgba(104,225,255,.08),rgba(104,225,255,.02));border-color:rgba(104,225,255,.10);color:#fff}
+.nav button.active .ico{color:var(--cyan)}
+.side-bottom{margin-top:auto}
+.connection-card{
+  padding:14px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+  border-radius:17px
+}
+.tiny{font-size:10px;color:var(--muted)}
+.status-row{display:flex;align-items:center;gap:7px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(109,231,170,.07)}
+.connection-card strong{display:block;margin-top:7px;font-size:12px}
+.connection-card .tiny{margin-top:3px}
+
+.main{flex:1;min-width:0;padding:22px 26px 34px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}
+.greeting h1{margin:0;font-size:29px;letter-spacing:-.04em}
+.greeting p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.top-actions{display:flex;align-items:center;gap:8px}
+.top-chip{
+  display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(255,255,255,.025);
+  padding:9px 12px;border-radius:12px;color:#b4bfd0;font-size:10px
+}
+.avatar{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:900;cursor:pointer;
+  border:1px solid var(--line);background:linear-gradient(145deg,#18243a,#0e1727)
+}
+.profile-menu{position:relative}
+.profile-pop{
+  display:none;position:absolute;right:0;top:48px;width:235px;padding:9px;border-radius:17px;
+  border:1px solid var(--line);background:#0a111d;box-shadow:var(--shadow);z-index:80
+}
+.profile-pop.show{display:block}
+.profile-who{padding:9px 10px 11px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.profile-who strong{display:block;font-size:12px}.profile-who small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.pop-btn{width:100%;padding:10px;border:0;background:transparent;color:#fff;text-align:left;border-radius:10px;cursor:pointer;font-size:11px}
+.pop-btn:hover{background:rgba(255,255,255,.05)}.pop-btn.danger{color:#ff9daa}
+
+.hero-strip{
+  position:relative;overflow:hidden;margin-bottom:16px;padding:18px 20px;border:1px solid var(--line2);
+  border-radius:20px;background:
+   radial-gradient(circle at 88% 30%,rgba(104,225,255,.12),transparent 24%),
+   linear-gradient(120deg,rgba(104,225,255,.045),rgba(105,136,255,.035));
+}
+.hero-strip:after{
+  content:"";position:absolute;right:-40px;top:-50px;width:150px;height:150px;border-radius:50%;
+  border:1px solid rgba(104,225,255,.08);box-shadow:0 0 0 22px rgba(104,225,255,.025),0 0 0 44px rgba(104,225,255,.014)
+}
+.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;z-index:2}
+.hero-title{display:flex;gap:14px;align-items:flex-start}
+.hero-badge{
+  width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(104,225,255,.07);
+  border:1px solid rgba(104,225,255,.12);font-size:18px;color:var(--cyan)
+}
+.hero-title h2{font-size:15px;margin:0 0 2px}.hero-title p{margin:0;color:var(--muted);font-size:11px}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap}
+.micro-pill{
+  padding:7px 9px;border-radius:999px;background:rgba(255,255,255,.025);border:1px solid var(--line);
+  color:#b9c5d7;font-size:9px
+}
+.micro-pill.live{color:var(--green);border-color:rgba(109,231,170,.17)}
+
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:15px}
+.card{
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,255,255,.038),rgba(255,255,255,.012)),var(--panel);
+  box-shadow:var(--shadow);position:relative
+}
+.pad{padding:17px}
+.span-8{grid-column:span 8}.span-6{grid-column:span 6}.span-4{grid-column:span 4}.span-12{grid-column:span 12}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
+.eyebrow{font-size:9px;font-weight:950;letter-spacing:.17em;text-transform:uppercase;color:var(--cyan)}
+.card h3{font-size:16px;margin:3px 0 0;letter-spacing:-.025em}
+.card-sub{color:var(--muted);font-size:10px}
+.pill{
+  border:1px solid var(--line);padding:6px 8px;border-radius:999px;font-size:9px;color:#93a0b6;background:rgba(255,255,255,.025)
+}
+.pill.green{color:var(--green);border-color:rgba(109,231,170,.17);background:rgba(109,231,170,.035)}
+.pill.red{color:#ffabb6;border-color:rgba(255,101,125,.16);background:rgba(255,101,125,.035)}
+
+.device-layout{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center}
+.device-art{
+  width:160px;height:160px;margin:auto;border-radius:42px;
+  display:grid;place-items:center;position:relative;
+  background:
+   radial-gradient(circle at 35% 27%,rgba(255,255,255,.22),transparent 15%),
+   linear-gradient(145deg,#243451,#101a2b);
+  border:1px solid rgba(104,225,255,.18);
+  box-shadow:0 0 0 12px rgba(104,225,255,.02),0 25px 70px rgba(0,0,0,.35)
+}
+.device-art:before{content:"";position:absolute;inset:15px;border:1px solid rgba(104,225,255,.10);border-radius:33px}
+.device-art .core{position:relative;z-index:1;font-size:42px;color:var(--cyan)}
+.device-label{font-size:26px;font-weight:950;letter-spacing:-.04em;margin:1px 0 3px}
+.device-desc{color:var(--muted);font-size:11px}
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:14px}
+.metric{
+  padding:11px;border:1px solid var(--line);background:rgba(255,255,255,.018);border-radius:13px
+}
+.metric small{display:block;color:#728098;font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.metric strong{font-size:14px}
+.bar{height:6px;border-radius:999px;background:#172238;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;width:50%;border-radius:inherit;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:.5s}
+
+.score-wrap{text-align:center;padding:4px 4px 5px}
+.ring{
+  width:132px;height:132px;border-radius:50%;margin:6px auto 12px;display:grid;place-items:center;
+  background:conic-gradient(var(--cyan) 0 82%,#172238 82% 100%);position:relative;
+  filter:drop-shadow(0 10px 35px rgba(104,225,255,.12))
+}
+.ring:before{content:"";position:absolute;inset:11px;background:var(--panel);border-radius:50%}
+.ring-num{position:relative;z-index:1;font-size:30px;font-weight:950}
+.score-main{font-size:13px;font-weight:850}.score-sub{color:var(--muted);font-size:10px;margin-top:3px}
+
+.action-stack{display:grid;gap:8px}
+.sos{
+  width:100%;border:0;cursor:pointer;padding:15px;border-radius:15px;
+  background:linear-gradient(135deg,#d63f58,#ff657d);box-shadow:0 15px 40px rgba(255,101,125,.15);
+  font-weight:950;letter-spacing:.02em;transition:.2s
+}
+.sos:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.sos small{display:block;opacity:.77;font-size:9px;font-weight:700;margin-top:3px}
+.action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.action{
+  padding:11px;border:1px solid var(--line);background:rgba(255,255,255,.018);border-radius:13px;
+  cursor:pointer;text-align:left;transition:.2s
+}
+.action:hover{border-color:rgba(104,225,255,.18);background:rgba(104,225,255,.05)}
+.action strong{display:block;font-size:10px}.action span{display:block;font-size:9px;color:var(--muted);margin-top:2px}
+
+.activity{display:grid;gap:11px}
+.activity-item{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:start}
+.activity-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);margin:5px auto 0;box-shadow:0 0 0 5px rgba(104,225,255,.06)}
+.activity-item strong{font-size:10px}.activity-item p{margin:2px 0 0;color:var(--muted);font-size:9px}.activity-item time{font-size:9px;color:#63718a}
+
+.alert-list{display:grid;gap:8px}
+.alert{
+  display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.018)
+}
+.alert-ico{
+  width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:rgba(104,225,255,.06);border:1px solid rgba(104,225,255,.10);flex:0 0 32px
+}
+.alert-text{min-width:0;flex:1}.alert-text strong{font-size:10px}.alert-text p{margin:2px 0 0;color:var(--muted);font-size:9px}.alert time{font-size:8px;color:#697790}
+
+.map{
+  height:236px;border-radius:16px;position:relative;overflow:hidden;border:1px solid var(--line);
+  background:
+   linear-gradient(25deg,transparent 0 21%,rgba(255,255,255,.025) 22% 23%,transparent 24% 60%,rgba(255,255,255,.025) 61% 62%,transparent 63%),
+   linear-gradient(112deg,transparent 0 15%,rgba(255,255,255,.04) 16% 17%,transparent 18% 43%,rgba(255,255,255,.035) 44% 45%,transparent 46%),
+   radial-gradient(circle at 63% 43%,rgba(104,225,255,.10),transparent 29%),#0a1220
+}
+.map:before{content:"";position:absolute;width:82%;height:1px;background:rgba(104,225,255,.08);left:9%;top:48%;transform:rotate(-15deg)}
+.map:after{content:"";position:absolute;height:82%;width:1px;background:rgba(104,225,255,.06);left:57%;top:9%;transform:rotate(18deg)}
+.pin{
+ position:absolute;width:21px;height:21px;background:var(--cyan);border-radius:50% 50% 50% 0;
+ transform:rotate(-45deg);left:calc(50% - 10px);top:calc(50% - 10px);box-shadow:0 0 0 8px rgba(104,225,255,.08);
+ display:none;z-index:3
+}
+.pin:after{content:"";position:absolute;width:6px;height:6px;left:7px;top:7px;border-radius:50%;background:#07101a}
+.map-chip{
+  position:absolute;left:12px;bottom:12px;padding:8px 10px;border-radius:11px;background:rgba(4,8,13,.75);
+  border:1px solid var(--line);backdrop-filter:blur(8px);font-size:9px;color:#e7edf6;z-index:4
+}
+.map-banner{margin-bottom:8px;padding:8px 10px;border-radius:11px;border:1px solid rgba(104,225,255,.11);background:rgba(104,225,255,.03);font-size:9px;color:var(--muted)}
+.controls{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.small-btn{
+  padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid var(--line);
+  color:#dce4f2;cursor:pointer;font-size:9px;font-weight:800
+}
+.small-btn:hover{border-color:rgba(104,225,255,.16);background:rgba(104,225,255,.05)}
+.geo-line{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:9px;margin-top:8px}.geo-line .gdot{width:6px;height:6px;border-radius:50%;background:#65738a}.geo-line.ok .gdot{background:var(--green)}
+.coords{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:8px;color:#93a4bc;margin-top:4px;word-break:break-word}
+
+.contacts{display:grid;gap:2px}
+.contact{
+ display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid var(--line)
+}
+.contact:last-child{border-bottom:0}
+.c-avatar{
+ width:30px;height:30px;border-radius:10px;background:#17233a;border:1px solid var(--line);
+ display:grid;place-items:center;font-size:9px;font-weight:950
+}
+.contact-body{flex:1}.contact-body strong{font-size:10px}.contact-body small{display:block;color:var(--muted);font-size:8px;margin-top:2px}
+.ready{font-size:8px;color:var(--green)}
+
+.matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.matrix-card{padding:10px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.018)}
+.matrix-top{display:flex;justify-content:space-between;align-items:center}.matrix-top span{font-size:8px;color:#75839a}.matrix-top b{font-size:9px;color:var(--green)}
+.matrix-value{font-size:18px;font-weight:950;margin-top:5px}.matrix-desc{font-size:8px;color:var(--muted)}
+
+.chart{height:120px;position:relative;padding-top:7px}
+.chart-grid{position:absolute;inset:7px 0 20px;display:grid;grid-template-rows:repeat(4,1fr)}
+.chart-grid div{border-top:1px dashed rgba(255,255,255,.065)}
+.chart svg{position:absolute;inset:7px 0 20px;width:100%;height:94px}
+.chart-labels{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;color:#64718a;font-size:8px}
+
+.footer{padding:18px 0 4px;text-align:center;color:#59667c;font-size:8px;letter-spacing:.05em}
+
+.toast{
+ position:fixed;right:18px;bottom:18px;z-index:120;width:min(330px,calc(100vw - 36px));
+ padding:13px 15px;border-radius:15px;border:1px solid rgba(104,225,255,.18);
+ background:#0c1523;box-shadow:var(--shadow);opacity:0;transform:translateY(16px);pointer-events:none;transition:.25s
+}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast strong{display:block;font-size:10px}.toast p{margin:3px 0 0;color:var(--muted);font-size:9px}
+
+.overlay{display:none;position:fixed;inset:0;z-index:140;place-items:center;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);padding:18px}
+.modal{
+ width:min(430px,100%);border-radius:22px;padding:22px;border:1px solid rgba(255,101,125,.22);
+ background:#0b1321;box-shadow:0 30px 100px rgba(0,0,0,.55)
+}
+.modal h3{margin:4px 0 5px;font-size:20px}.modal p{margin:0;color:var(--muted);font-size:10px;line-height:1.7}
+.modal-row{display:flex;gap:8px;margin-top:15px}.modal-row button{flex:1}
+.auth-screen{
+ position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:18px;
+ background:
+  radial-gradient(900px 600px at 80% 10%,rgba(105,136,255,.18),transparent 55%),
+  radial-gradient(800px 500px at 10% 88%,rgba(104,225,255,.10),transparent 55%),rgba(3,5,9,.97);
+ backdrop-filter:blur(16px)
+}
+.auth-card{
+ width:min(430px,100%);padding:25px;border-radius:24px;border:1px solid rgba(255,255,255,.09);
+ background:linear-gradient(150deg,rgba(17,25,41,.97),rgba(8,13,22,.98));box-shadow:0 30px 100px rgba(0,0,0,.5)
+}
+.auth-brand{display:flex;align-items:center;gap:9px;font-weight:950;letter-spacing:.13em;font-size:13px}.auth-brand span{color:var(--cyan)}
+.auth-title{font-size:28px;font-weight:950;letter-spacing:-.04em;margin-top:22px}.auth-sub{font-size:10px;color:var(--muted);margin:4px 0 17px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:4px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);margin-bottom:15px}
+.tab{border:0;background:transparent;color:var(--muted);padding:9px;border-radius:9px;cursor:pointer;font-size:10px;font-weight:900}.tab.active{background:rgba(104,225,255,.08);color:#fff}
+.field{margin:9px 0}.field label{display:block;font-size:8px;font-weight:900;color:#a9b5c6;margin:0 0 5px;letter-spacing:.1em}.field input{width:100%;border:1px solid var(--line);background:#08101c;color:#fff;border-radius:11px;padding:11px 12px;outline:none;font-size:11px}.field input:focus{border-color:rgba(104,225,255,.4);box-shadow:0 0 0 3px rgba(104,225,255,.05)}
+.auth-submit{width:100%;border:0;padding:12px;border-radius:12px;margin-top:8px;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#04111a;font-size:11px;font-weight:950}
+.auth-error{display:none;padding:9px 10px;border-radius:10px;background:rgba(255,101,125,.06);border:1px solid rgba(255,101,125,.17);color:#ffb7c0;margin-top:8px;font-size:9px}
+.auth-note{text-align:center;color:#64718a;font-size:8px;line-height:1.6;margin-top:9px}
+
+@media(max-width:1100px){
+ .sidebar{width:220px;flex-basis:220px}.span-8,.span-6{grid-column:span 12}.span-4{grid-column:span 6}.matrix{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:800px){
+ .sidebar{display:none}.main{padding:15px}.span-4{grid-column:span 12}
+ .top-chip{display:none}.device-layout{grid-template-columns:1fr;text-align:center}.hero-inner{align-items:flex-start;flex-direction:column}
+ .hero-meta{width:100%}.matrix{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:520px){
+ .greeting h1{font-size:23px}.hero-strip{padding:15px}.metrics{grid-template-columns:1fr 1fr}
+ .matrix{grid-template-columns:1fr 1fr}.action-grid{grid-template-columns:1fr}
+}
+</style>
+
+<style id="premium-refresh">
+:root{--bg:#05070c;--panel:#0b1018;--line:rgba(255,255,255,.065);--cyan:#64e5ff;--blue:#7b8cff;--green:#63e4a0;--red:#ff647d}body{background:radial-gradient(900px 500px at 88% -8%,rgba(123,140,255,.17),transparent 62%),radial-gradient(700px 450px at -10% 92%,rgba(100,229,255,.08),transparent 60%),#05070c}.side{background:rgba(4,7,12,.78)!important;border-right-color:rgba(255,255,255,.05)!important;backdrop-filter:blur(20px)}.main{padding:20px 24px 35px!important}.title h1{font-size:31px!important;letter-spacing:-.055em!important}.notice{position:relative;border-radius:19px!important;background:radial-gradient(circle at 92% 50%,rgba(100,229,255,.12),transparent 22%),linear-gradient(100deg,rgba(100,229,255,.055),rgba(123,140,255,.03))!important}.notice:before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:5px;background:linear-gradient(var(--cyan),var(--blue))}.card{border-color:rgba(255,255,255,.06)!important;background:linear-gradient(145deg,rgba(255,255,255,.034),rgba(255,255,255,.008)),rgba(10,15,24,.92)!important;transition:transform .2s,border-color .2s,box-shadow .2s}.card:hover{transform:translateY(-2px);border-color:rgba(100,229,255,.11)!important;box-shadow:0 28px 75px rgba(0,0,0,.38)!important}.deviceVisual{animation:aurapulse 3.8s ease-in-out infinite}.deviceVisual .core:after{box-shadow:0 0 28px rgba(100,229,255,.5)!important}@keyframes aurapulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.08)}}.smallBtn{transition:.18s!important}.sos{position:relative;overflow:hidden}.sos:after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-18deg);animation:sosshine 4.5s linear infinite}@keyframes sosshine{0%{left:-70%}32%,100%{left:130%}}.metric:hover,.matrixItem:hover{border-color:rgba(100,229,255,.12)!important;background:rgba(100,229,255,.025)!important}.map{background:linear-gradient(25deg,transparent 0 18%,rgba(255,255,255,.025) 19% 20%,transparent 21% 54%,rgba(255,255,255,.022) 55% 56%,transparent 57%),linear-gradient(112deg,transparent 0 12%,rgba(255,255,255,.035) 13% 14%,transparent 15% 47%,rgba(255,255,255,.024) 48% 49%,transparent 50%),radial-gradient(circle at 64% 43%,rgba(100,229,255,.1),transparent 27%),#09111c!important}.footer{letter-spacing:.08em!important}@media(max-width:760px){.main{padding:12px!important}.title h1{font-size:24px!important}.card{border-radius:18px!important}.notice{padding:14px!important}}
+</style>
+</head>
+<body>
+
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo-mark">G</div>
+    <div class="brand-name">GO <span>AHEAD</span></div>
+    <div class="beta">BETA</div>
+  </div>
+
+  <div class="section-label">Command centre</div>
+  <div class="nav">
+    <button class="active" onclick="focusSection('dashboard')"><span class="ico">⌂</span>Dashboard</button>
+    <button onclick="focusSection('device')"><span class="ico">◉</span>AURA-GUARD</button>
+    <button onclick="focusSection('alerts')"><span class="ico">⚠</span>Alerts</button>
+    <button onclick="focusSection('location')"><span class="ico">⌖</span>Live Location</button>
+    <button onclick="focusSection('contacts')"><span class="ico">◎</span>Trusted Network</button>
+  </div>
+
+  <div class="section-label">Insights</div>
+  <div class="nav">
+    <button onclick="focusSection('matrix')"><span class="ico">▦</span>Protection Matrix</button>
+    <button onclick="focusSection('activity')"><span class="ico">◷</span>Activity</button>
+  </div>
+
+  <div class="section-label">Account</div>
+  <div class="nav">
+    <button onclick="showToast('Settings','Prototype settings are ready for backend integration.')"><span class="ico">⚙</span>Settings</button>
+  </div>
+
+  <div class="side-bottom">
+    <div class="connection-card">
+      <div class="status-row"><span class="dot"></span><span class="tiny">SYSTEM STATUS</span></div>
+      <strong>GO AHEAD is online</strong>
+      <div class="tiny" id="sideSync">Last sync • just now</div>
+    </div>
+  </div>
+</aside>
+
+<main class="main" id="dashboard">
+  <div class="topbar">
+    <div class="greeting">
+      <h1 id="welcomeTitle">Welcome back.</h1>
+      <p id="currentDate">Safety command centre • loading time...</p>
+    </div>
+    <div class="top-actions">
+      <div class="top-chip"><span class="dot"></span><span id="networkChip">Browser online</span></div>
+      <div class="profile-menu">
+        <div class="avatar" id="avatarBtn" onclick="toggleProfile()">G</div>
+        <div class="profile-pop" id="profilePop">
+          <div class="profile-who"><strong id="profileName">Guest</strong><small id="profileEmail">Not signed in</small></div>
+          <button class="pop-btn" onclick="showToast('Account','Saved locally on this browser.')">Account</button>
+          <button class="pop-btn" onclick="showToast('Settings','Ready for backend integration.')">Settings</button>
+          <button class="pop-btn danger" onclick="logout()">Log out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero-strip">
+    <div class="hero-inner">
+      <div class="hero-title">
+        <div class="hero-badge">✦</div>
+        <div>
+          <div class="eyebrow">Connected safety platform</div>
+          <h2>GO AHEAD + AURA-GUARD</h2>
+          <p>One interface connecting detection, communication, location and rapid response.</p>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <span class="micro-pill live">● PROTECTION ACTIVE</span>
+        <span class="micro-pill">CONNECTED PLATFORM</span>
+        <span class="micro-pill" id="clockPill">--:--:--</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid">
+
+    <div class="card span-8" id="device">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">Hardware telemetry</div><h3>AURA-GUARD</h3></div>
+          <div class="pill green">● CONNECTED</div>
+        </div>
+
+        <div class="device-layout">
+          <div class="device-art"><div class="core">◉</div></div>
+          <div>
+            <div class="device-label">Protection device online.</div>
+            <div class="device-desc">The dashboard separates browser telemetry from future AURA-GUARD hardware telemetry.</div>
+            <div class="metrics">
+              <div class="metric">
+                <small>Browser battery</small>
+                <strong id="batteryValue">Checking…</strong>
+                <div class="bar"><i id="batteryBar" style="width:0%"></i></div>
+              </div>
+              <div class="metric">
+                <small>Network</small>
+                <strong id="networkValue" style="color:var(--green)">Online</strong>
+                <div class="bar"><i id="networkBar" style="width:100%"></i></div>
+              </div>
+              <div class="metric">
+                <small>Location accuracy</small>
+                <strong id="accuracyValue">Waiting…</strong>
+              </div>
+              <div class="metric">
+                <small>Safety mode</small>
+                <strong style="color:var(--green)">Active</strong>
+              </div>
+            </div>
+            <div class="controls">
+              <button class="small-btn" onclick="connectBluetoothDemo()">◉ Connect AURA-GUARD</button>
+              <button class="small-btn" onclick="requestLocation()">⌖ Use My Location</button>
+              <button class="small-btn" onclick="syncNow()">↻ Sync now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-4">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">Protection engine</div><h3>Safety Score</h3></div>
+          <div class="pill">82 / 100</div>
+        </div>
+        <div class="score-wrap">
+          <div class="ring"><div class="ring-num">82</div></div>
+          <div class="score-main">Good protection state</div>
+          <div class="score-sub">Device, network and trusted contacts are configured.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-4" id="alerts">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">Monitoring</div><h3>Recent alerts</h3></div>
+          <div class="pill">TODAY</div>
+        </div>
+        <div class="alert-list">
+          <div class="alert"><div class="alert-ico">✓</div><div class="alert-text"><strong>Routine check-in</strong><p>All monitored signals normal.</p></div><time>09:42</time></div>
+          <div class="alert"><div class="alert-ico">⌁</div><div class="alert-text"><strong>Connection verified</strong><p>GO AHEAD is synced.</p></div><time>09:36</time></div>
+          <div class="alert"><div class="alert-ico">⌖</div><div class="alert-text"><strong>Location update</strong><p>Last known coordinates refreshed.</p></div><time>09:31</time></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-4">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">Emergency layer</div><h3>Quick response</h3></div>
+          <div class="pill red">READY</div>
+        </div>
+        <div class="action-stack">
+          <button class="sos" onclick="openSOS()">EMERGENCY SOS<small>Demo workflow • no real emergency call</small></button>
+          <div class="action-grid">
+            <button class="action" onclick="sendCheckin()"><strong>Send check-in</strong><span>Notify trusted network</span></button>
+            <button class="action" onclick="shareLocation()"><strong>Share location</strong><span>Prepare latest coordinates</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-4" id="location">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">Browser GPS</div><h3>Live location</h3></div>
+          <div class="pill green" id="geoPill">WAITING</div>
+        </div>
+        <div class="map-banner">Location access is requested only after you press <b>Use My Location</b>.</div>
+        <div class="map">
+          <div class="pin" id="livePin"></div>
+          <div class="map-chip" id="locationText">Location not shared yet.</div>
+        </div>
+        <div class="controls">
+          <button class="small-btn" onclick="requestLocation()">⌖ Use My Location</button>
+          <button class="small-btn" onclick="refreshLocation()">↻ Refresh</button>
+          <button class="small-btn" id="mapsBtn" onclick="openMaps()" disabled>↗ Open map</button>
+        </div>
+        <div class="geo-line" id="geoStatus"><span class="gdot"></span><span id="geoStatusText">Waiting for permission</span></div>
+        <div class="coords" id="coordsText"></div>
+      </div>
+    </div>
+
+    <div class="card span-4" id="contacts">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">Response network</div><h3>Trusted contacts</h3></div>
+          <div class="pill green">3 READY</div>
+        </div>
+        <div class="contacts">
+          <div class="contact"><div class="c-avatar">PC</div><div class="contact-body"><strong>Primary Contact</strong><small>Emergency priority 01</small></div><span class="ready">READY</span></div>
+          <div class="contact"><div class="c-avatar">EC</div><div class="contact-body"><strong>Emergency Contact</strong><small>Family / support group</small></div><span class="ready">READY</span></div>
+          <div class="contact"><div class="c-avatar">SC</div><div class="contact-body"><strong>Secondary Contact</strong><small>Backup response route</small></div><span class="ready">READY</span></div>
+        </div>
+        <button class="small-btn" style="width:100%;margin-top:10px" onclick="showToast('Trusted network','Contact management is ready for backend integration.')">Manage network</button>
+      </div>
+    </div>
+
+    <div class="card span-4" id="activity">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">Timeline</div><h3>Activity stream</h3></div>
+          <div class="pill">LIVE</div>
+        </div>
+        <div class="activity">
+          <div class="activity-item"><div class="activity-dot"></div><div><strong>Dashboard initialized</strong><p>GO AHEAD command centre loaded.</p></div><time id="activityTime1">now</time></div>
+          <div class="activity-item"><div class="activity-dot"></div><div><strong>Protection mode active</strong><p>Safety workflow is armed.</p></div><time>09:42</time></div>
+          <div class="activity-item"><div class="activity-dot"></div><div><strong>Network verified</strong><p>Browser connectivity confirmed.</p></div><time>09:36</time></div>
+          <div class="activity-item"><div class="activity-dot"></div><div><strong>Last sync complete</strong><p>Telemetry panel refreshed.</p></div><time>09:31</time></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-12" id="matrix">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">System intelligence</div><h3>Protection matrix</h3></div>
+          <div class="pill">DEMO VALUES + LIVE BROWSER SIGNALS</div>
+        </div>
+        <div class="matrix">
+          <div class="matrix-card"><div class="matrix-top"><span>DEVICE</span><b>READY</b></div><div class="matrix-value">96%</div><div class="matrix-desc">Connection quality</div></div>
+          <div class="matrix-card"><div class="matrix-top"><span>LOCATION</span><b id="matrixGeoState">WAITING</b></div><div class="matrix-value" id="matrixGeoValue">—</div><div class="matrix-desc">GPS precision</div></div>
+          <div class="matrix-card"><div class="matrix-top"><span>NETWORK</span><b id="matrixNetState">ONLINE</b></div><div class="matrix-value" id="matrixNetValue">100%</div><div class="matrix-desc">Browser connectivity</div></div>
+          <div class="matrix-card"><div class="matrix-top"><span>CONTACTS</span><b>READY</b></div><div class="matrix-value">3/3</div><div class="matrix-desc">Trusted network</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <div class="pad">
+        <div class="card-head">
+          <div><div class="eyebrow">Protection trends</div><h3>7-day readiness overview</h3></div>
+          <div class="pill">ILLUSTRATIVE</div>
+        </div>
+        <div class="chart">
+          <div class="chart-grid"><div></div><div></div><div></div><div></div></div>
+          <svg viewBox="0 0 900 100" preserveAspectRatio="none" aria-label="illustrative safety trend chart">
+            <defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#68e1ff" stop-opacity=".20"/><stop offset="1" stop-color="#68e1ff" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0 76 C65 74,90 58,135 62 C190 66,215 74,260 55 C315 33,335 48,390 52 C452 55,474 35,520 31 C575 26,590 42,642 31 C698 18,716 26,775 20 C827 15,860 23,900 12 L900 100 L0 100 Z" fill="url(#fill)"/>
+            <path d="M0 76 C65 74,90 58,135 62 C190 66,215 74,260 55 C315 33,335 48,390 52 C452 55,474 35,520 31 C575 26,590 42,642 31 C698 18,716 26,775 20 C827 15,860 23,900 12" fill="none" stroke="#68e1ff" stroke-width="2.3"/>
+          </svg>
+          <div class="chart-labels"><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="footer">GO AHEAD • AURA TECH • PERSONAL SAFETY INTELLIGENCE • LIVE DEMO</div>
+</main>
+</div>
+
+<div class="toast" id="toast"><strong id="toastTitle">Done</strong><p id="toastText"></p></div>
+
+<div class="overlay" id="sosOverlay">
+  <div class="modal">
+    <div class="eyebrow">Emergency workflow</div>
+    <h3>Trigger demo SOS?</h3>
+    <p>This is a school-project prototype. It does not contact police, emergency services, or real contacts. It demonstrates how the interface would react after a future connected event.</p>
+    <div class="modal-row">
+      <button class="small-btn" onclick="closeSOS()">Cancel</button>
+      <button class="sos" style="padding:11px" onclick="triggerDemoSOS()">Trigger demo</button>
+    </div>
+  </div>
+</div>
+
+<div class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-brand"><div class="logo-mark" style="width:30px;height:30px">G</div>GO <span>AHEAD</span></div>
+    <div class="auth-title" id="authTitle">Welcome back.</div>
+    <div class="auth-sub" id="authSub">Sign in to continue to the safety command centre.</div>
+    <div class="tabs">
+      <button class="tab active" id="loginTab" onclick="switchAuth('login')">LOGIN</button>
+      <button class="tab" id="registerTab" onclick="switchAuth('register')">REGISTER</button>
+    </div>
+    <form onsubmit="handleAuth(event)">
+      <div class="field" id="nameField" style="display:none"><label>NAME</label><input id="authName" type="text" placeholder="Enter your name"></div>
+      <div class="field"><label>EMAIL</label><input id="authEmail" type="email" placeholder="you@example.com" required></div>
+      <div class="field"><label>PASSWORD</label><input id="authPassword" type="password" placeholder="Minimum 6 characters" minlength="6" required></div>
+      <div class="field" id="confirmField" style="display:none"><label>CONFIRM PASSWORD</label><input id="authConfirm" type="password" placeholder="Re-enter password" minlength="6"></div>
+      <button class="auth-submit" id="authSubmit">LOGIN TO GO AHEAD</button>
+      <div class="auth-error" id="authError"></div>
+      <div class="auth-note">Prototype authentication is saved locally in this browser. Production deployment should use a secure backend and hashed credentials.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+
+function showToast(title,text){
+  $('toastTitle').textContent=title;
+  $('toastText').textContent=text;
+  $('toast').classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3200);
+}
+function focusSection(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleProfile(){
+  $('profilePop').classList.toggle('show');
+}
+document.addEventListener('click',e=>{
+  const m=document.querySelector('.profile-menu');
+  if(m && !m.contains(e.target)) $('profilePop').classList.remove('show');
+});
+
+/* ---------- live date/time ---------- */
+function updateClock(){
+  const now=new Date();
+  const date=now.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'short',year:'numeric'});
+  const time=now.toLocaleTimeString(undefined,{hour12:false});
+  $('currentDate').textContent='Safety command centre • '+date;
+  $('clockPill').textContent=time;
+  $('sideSync').textContent='Last sync • '+time;
+  $('activityTime1').textContent=time;
+}
+setInterval(updateClock,1000);updateClock();
+
+/* ---------- network ---------- */
+function updateNetwork(){
+  const online=navigator.onLine;
+  $('networkValue').textContent=online?'Online':'Offline';
+  $('networkChip').textContent=online?'Browser online':'Browser offline';
+  $('networkValue').style.color=online?'var(--green)':'var(--red)';
+  $('networkBar').style.width=online?'100%':'14%';
+  $('matrixNetState').textContent=online?'ONLINE':'OFFLINE';
+  $('matrixNetState').style.color=online?'var(--green)':'var(--red)';
+  $('matrixNetValue').textContent=online?'100%':'14%';
+}
+window.addEventListener('online',()=>{updateNetwork();showToast('Back online','Browser connectivity restored.')});
+window.addEventListener('offline',()=>{updateNetwork();showToast('Offline mode','Browser connection is currently offline.')});
+updateNetwork();
+
+/* ---------- battery ---------- */
+async function updateBattery(){
+  const value=$('batteryValue'),bar=$('batteryBar');
+  if(!navigator.getBattery){
+    value.textContent='Unavailable';bar.style.width='0%';return;
+  }
+  try{
+    const b=await navigator.getBattery();
+    const draw=()=>{
+      const p=Math.round(b.level*100);
+      value.textContent=p+'%'+(b.charging?' ⚡':'');
+      bar.style.width=p+'%';
+      bar.style.background=p<=20?'linear-gradient(90deg,#ff657d,#ff9daa)':'linear-gradient(90deg,var(--blue),var(--cyan))';
+    };
+    draw();
+    b.addEventListener('levelchange',draw);
+    b.addEventListener('chargingchange',draw);
+  }catch(e){value.textContent='Unavailable';}
+}
+updateBattery();
+
+/* ---------- geolocation ---------- */
+let lastCoords=null,geoWatch=null;
+
+function setGeo(mode,msg){
+  $('geoStatus').className='geo-line '+(mode||'');
+  $('geoStatusText').textContent=msg;
+  $('geoPill').textContent=mode==='ok'?'LIVE':mode==='bad'?'BLOCKED':'WAITING';
+  $('geoPill').className='pill '+(mode==='ok'?'green':mode==='bad'?'red':'');
+}
+
+function renderGeo(pos){
+  const c=pos.coords;
+  lastCoords={lat:c.latitude,lng:c.longitude,accuracy:c.accuracy,ts:pos.timestamp};
+  const acc=Math.max(1,Math.round(c.accuracy));
+  $('accuracyValue').textContent=acc+' m';
+  $('coordsText').textContent=`LAT ${c.latitude.toFixed(6)} • LNG ${c.longitude.toFixed(6)} • ±${acc}m`;
+  $('locationText').textContent=`Live location • ${c.latitude.toFixed(5)}, ${c.longitude.toFixed(5)}`;
+  $('livePin').style.display='block';
+  $('matrixGeoState').textContent='LIVE';
+  $('matrixGeoState').style.color='var(--green)';
+  $('matrixGeoValue').textContent=acc+'m';
+  $('geoStatus').className='geo-line ok';
+  $('geoStatusText').textContent='Location access granted • live updates available';
+  $('mapsBtn').disabled=false;
+  localStorage.setItem('goAheadLastGeo',JSON.stringify(lastCoords));
+}
+function geoError(err){
+  let msg='Location unavailable';
+  if(err?.code===1)msg='Location permission denied';
+  else if(err?.code===2)msg='Location unavailable';
+  else if(err?.code===3)msg='Location request timed out';
+  setGeo('bad',msg);
+  $('accuracyValue').textContent='Unavailable';
+}
+function requestLocation(){
+  if(!('geolocation' in navigator)){
+    setGeo('bad','Geolocation not supported by this browser');
+    showToast('Location unavailable','This browser does not expose geolocation.');
+    return;
+  }
+  setGeo('','Requesting permission…');
+  navigator.geolocation.getCurrentPosition(renderGeo,geoError,{enableHighAccuracy:true,timeout:10000,maximumAge:0});
+}
+function refreshLocation(){requestLocation()}
+function openMaps(){
+  if(!lastCoords)return;
+  const url=`https://www.google.com/maps?q=${lastCoords.lat},${lastCoords.lng}`;
+  window.open(url,'_blank','noopener');
+}
+function startGeoWatch(){
+  if(!('geolocation' in navigator))return;
+  try{
+    geoWatch=navigator.geolocation.watchPosition(renderGeo,geoError,{enableHighAccuracy:true,maximumAge:5000,timeout:15000});
+  }catch(e){}
+}
+startGeoWatch();
+
+/* ---------- sync / actions ---------- */
+function syncNow(){
+  $('sideSync').textContent='Last sync • '+new Date().toLocaleTimeString(undefined,{hour12:false});
+  showToast('Sync complete','Dashboard signals refreshed.');
+}
+function sendCheckin(){
+  showToast('Check-in queued','A real deployment would notify the trusted network here.');
+}
+function shareLocation(){
+  if(!lastCoords){
+    showToast('Location needed','Use “Use My Location” first.');
+    return;
+  }
+  const text=`GO AHEAD location: ${lastCoords.lat.toFixed(6)}, ${lastCoords.lng.toFixed(6)}`;
+  if(navigator.share){
+    navigator.share({title:'GO AHEAD location',text}).catch(()=>{});
+  }else{
+    navigator.clipboard?.writeText(text);
+    showToast('Location prepared','Coordinates copied where supported.');
+  }
+}
+
+/* ---------- Bluetooth demo ---------- */
+async function connectBluetoothDemo(){
+  if(!navigator.bluetooth){
+    showToast('Bluetooth unavailable','Web Bluetooth is not supported in this browser.');
+    return;
+  }
+  try{
+    showToast('Device pairing','Choose a compatible BLE device in the browser prompt.');
+    const device=await navigator.bluetooth.requestDevice({acceptAllDevices:true});
+    $('device').querySelector('.pill').textContent='● BLE DEVICE FOUND';
+    $('device').querySelector('.pill').className='pill green';
+    showToast('Device selected',device.name||'BLE device selected');
+  }catch(e){
+    if(e.name!=='NotFoundError')showToast('Pairing cancelled','No Bluetooth device was connected.');
+  }
+}
+
+/* ---------- SOS ---------- */
+function openSOS(){$('sosOverlay').style.display='grid'}
+function closeSOS(){$('sosOverlay').style.display='none'}
+function triggerDemoSOS(){
+  closeSOS();
+  showToast('DEMO SOS TRIGGERED','A real connected system would now execute its configured emergency workflow.');
+}
+
+/* ---------- server auth + real telemetry ---------- */
+async function api(path, options={}){
+  const res = await fetch(path, {
+    credentials:"same-origin",
+    headers:{"Content-Type":"application/json",...(options.headers||{})},
+    ...options
+  });
+  let data={};
+  try{data=await res.json()}catch(e){}
+  if(!res.ok) throw new Error(data.error || "Request failed");
+  return data;
+}
+
+function switchAuth(mode){
+  const login=mode==='login';
+  $('loginTab').classList.toggle('active',login);
+  $('registerTab').classList.toggle('active',!login);
+  $('nameField').style.display=login?'none':'block';
+  $('confirmField').style.display=login?'none':'block';
+  $('authTitle').textContent=login?'Welcome back.':'Create your GO AHEAD account.';
+  $('authSub').textContent=login?'Sign in to continue to the safety command centre.':'Register once and use the same account on the deployed site.';
+  $('authSubmit').textContent=login?'LOGIN TO GO AHEAD':'CREATE ACCOUNT';
+  $('authError').style.display='none';
+}
+function authError(msg){$('authError').textContent=msg;$('authError').style.display='block'}
+
+async function handleAuth(e){
+  e.preventDefault();
+  const register=$('registerTab').classList.contains('active');
+  const payload=register ? {
+    name:$('authName').value.trim(),
+    email:$('authEmail').value.trim(),
+    password:$('authPassword').value,
+    confirmPassword:$('authConfirm').value
+  } : {
+    email:$('authEmail').value.trim(),
+    password:$('authPassword').value
+  };
+  try{
+    const data=await api(register?'/api/register':'/api/login',{method:'POST',body:JSON.stringify(payload)});
+    applyUser(data.user);
+    showToast(register?'Account created':'Welcome back', register?'Your account is saved on the server.':'Signed in successfully.');
+  }catch(err){
+    authError(err.message);
+  }
+}
+
+function applyUser(user){
+  if(!user){
+    $('authScreen').style.display='flex';
+    switchAuth('login');
+    return;
+  }
+  $('authScreen').style.display='none';
+  $('profileName').textContent=user.name||'GO AHEAD User';
+  $('profileEmail').textContent=user.email||'';
+  $('avatarBtn').textContent=(user.name||'G').charAt(0).toUpperCase();
+}
+
+async function initAuth(){
+  try{
+    const data=await api('/api/me');
+    applyUser(data.user);
+  }catch(e){
+    $('authScreen').style.display='flex';
+  }
+}
+
+async function logout(){
+  try{await api('/api/logout',{method:'POST'})}catch(e){}
+  $('profilePop').classList.remove('show');
+  $('authScreen').style.display='flex';
+  switchAuth('login');
+  showToast('Logged out','Your server session has ended.');
+}
+
+/* ---------- real telemetry ---------- */
+let lastCoords=null, geoWatch=null, batteryObj=null;
+
+async function sendTelemetry(extra={}){
+  try{
+    await api('/api/telemetry',{
+      method:'POST',
+      body:JSON.stringify({
+        battery: extra.battery ?? null,
+        charging: extra.charging ?? null,
+        online:navigator.onLine,
+        latitude:lastCoords?.lat ?? null,
+        longitude:lastCoords?.lng ?? null,
+        accuracy:lastCoords?.accuracy ?? null,
+        userAgent:navigator.userAgent,
+        ...extra
+      })
+    });
+  }catch(e){}
+}
+
+async function updateBattery(){
+  const value=$('batteryValue'),bar=$('batteryBar');
+  if(!navigator.getBattery){
+    value.textContent='Unavailable';bar.style.width='0%';return;
+  }
+  try{
+    batteryObj=await navigator.getBattery();
+    const draw=()=>{
+      const p=Math.round(batteryObj.level*100);
+      value.textContent=p+'%'+(batteryObj.charging?' ⚡':'');
+      bar.style.width=p+'%';
+      bar.style.background=p<=20?'linear-gradient(90deg,#ff657d,#ff9daa)':'linear-gradient(90deg,var(--blue),var(--cyan))';
+      sendTelemetry({battery:p,charging:batteryObj.charging});
+    };
+    draw();
+    batteryObj.addEventListener('levelchange',draw);
+    batteryObj.addEventListener('chargingchange',draw);
+  }catch(e){value.textContent='Unavailable'}
+}
+updateBattery();
+
+function updateNetwork(){
+  const online=navigator.onLine;
+  $('networkValue').textContent=online?'Online':'Offline';
+  $('networkChip').textContent=online?'Browser online':'Browser offline';
+  $('networkValue').style.color=online?'var(--green)':'var(--red)';
+  $('networkBar').style.width=online?'100%':'14%';
+  $('matrixNetState').textContent=online?'ONLINE':'OFFLINE';
+  $('matrixNetState').style.color=online?'var(--green)':'var(--red)';
+  $('matrixNetValue').textContent=online?'100%':'14%';
+  sendTelemetry({online});
+}
+window.addEventListener('online',()=>{updateNetwork();showToast('Back online','Browser connectivity restored.')});
+window.addEventListener('offline',()=>{updateNetwork();showToast('Offline mode','Browser connection is currently offline.')});
+updateNetwork();
+
+function setGeo(mode,msg){
+  $('geoStatus').className='geo-line '+(mode||'');
+  $('geoStatusText').textContent=msg;
+  $('geoPill').textContent=mode==='ok'?'LIVE':mode==='bad'?'BLOCKED':'WAITING';
+  $('geoPill').className='pill '+(mode==='ok'?'green':mode==='bad'?'red':'');
+}
+function renderGeo(pos){
+  const c=pos.coords;
+  lastCoords={lat:c.latitude,lng:c.longitude,accuracy:c.accuracy,ts:pos.timestamp};
+  const acc=Math.max(1,Math.round(c.accuracy));
+  $('accuracyValue').textContent=acc+' m';
+  $('coordsText').textContent=`LAT ${c.latitude.toFixed(6)} • LNG ${c.longitude.toFixed(6)} • ±${acc}m`;
+  $('locationText').textContent=`Live location • ${c.latitude.toFixed(5)}, ${c.longitude.toFixed(5)}`;
+  $('livePin').style.display='block';
+  $('matrixGeoState').textContent='LIVE';
+  $('matrixGeoState').style.color='var(--green)';
+  $('matrixGeoValue').textContent=acc+'m';
+  $('geoStatus').className='geo-line ok';
+  $('geoStatusText').textContent='Location access granted • live updates available';
+  $('mapsBtn').disabled=false;
+  sendTelemetry({latitude:c.latitude,longitude:c.longitude,accuracy:c.accuracy});
+}
+function geoError(err){
+  let msg='Location unavailable';
+  if(err?.code===1)msg='Location permission denied';
+  else if(err?.code===2)msg='Location unavailable';
+  else if(err?.code===3)msg='Location request timed out';
+  setGeo('bad',msg);
+  $('accuracyValue').textContent='Unavailable';
+}
+function requestLocation(){
+  if(!('geolocation' in navigator)){
+    setGeo('bad','Geolocation not supported by this browser');
+    showToast('Location unavailable','This browser does not expose geolocation.');
+    return;
+  }
+  setGeo('','Requesting permission…');
+  navigator.geolocation.getCurrentPosition(renderGeo,geoError,{enableHighAccuracy:true,timeout:10000,maximumAge:0});
+}
+function refreshLocation(){requestLocation()}
+function openMaps(){
+  if(!lastCoords)return;
+  window.open(`https://www.google.com/maps?q=${lastCoords.lat},${lastCoords.lng}`,'_blank','noopener');
+}
+function startGeoWatch(){
+  if(!('geolocation' in navigator))return;
+  try{geoWatch=navigator.geolocation.watchPosition(renderGeo,geoError,{enableHighAccuracy:true,maximumAge:5000,timeout:15000})}catch(e){}
+}
+startGeoWatch();
+
+function syncNow(){
+  $('sideSync').textContent='Last sync • '+new Date().toLocaleTimeString(undefined,{hour12:false});
+  sendTelemetry({});
+  showToast('Sync complete','Live browser signals sent to the server.');
+}
+
+async function sendCheckin(){
+  try{
+    await api('/api/checkin',{method:'POST',body:JSON.stringify({latitude:lastCoords?.lat??null,longitude:lastCoords?.lng??null})});
+    showToast('Check-in saved','The server recorded the safety check-in.');
+  }catch(e){showToast('Sign-in required','Log in before saving a check-in.')}
+}
+
+async function shareLocation(){
+  if(!lastCoords){showToast('Location needed','Use “Use My Location” first.');return}
+  const text=`GO AHEAD location: ${lastCoords.lat.toFixed(6)}, ${lastCoords.lng.toFixed(6)}`;
+  if(navigator.share){navigator.share({title:'GO AHEAD location',text}).catch(()=>{})}
+  else {navigator.clipboard?.writeText(text);showToast('Location prepared','Coordinates copied where supported.')}
+}
+
+async function connectBluetoothDemo(){
+  if(!navigator.bluetooth){
+    showToast('Bluetooth unavailable','Web Bluetooth is not supported in this browser.');
+    return;
+  }
+  try{
+    showToast('Bluetooth','Choose the AURA-GUARD device in the browser prompt.');
+    const device=await navigator.bluetooth.requestDevice({
+      acceptAllDevices:true,
+      optionalServices:['battery_service','device_information']
+    });
+    if(device.gatt){
+      await device.gatt.connect();
+      $('device').querySelector('.pill').textContent='● BLE CONNECTED';
+      $('device').querySelector('.pill').className='pill green';
+      showToast('AURA-GUARD connected',device.name||'BLE device connected');
+      try{
+        const service=await device.gatt.getPrimaryService('battery_service');
+        const characteristic=await service.getCharacteristic('battery_level');
+        const v=await characteristic.readValue();
+        const p=v.getUint8(0);
+        $('batteryValue').textContent=p+'%';
+        $('batteryBar').style.width=p+'%';
+        await sendTelemetry({deviceName:device.name||'AURA-GUARD',deviceBattery:p,deviceConnected:true});
+      }catch(e){}
+      device.addEventListener('gattserverdisconnected',()=>showToast('AURA-GUARD disconnected','The BLE device is no longer connected.'));
+    }
+  }catch(e){
+    if(e.name!=='NotFoundError')showToast('Bluetooth cancelled','No device connection was made.');
+  }
+}
+
+/* ---------- SOS ---------- */
+function openSOS(){$('sosOverlay').style.display='grid'}
+function closeSOS(){$('sosOverlay').style.display='none'}
+async function triggerDemoSOS(){
+  closeSOS();
+  try{
+    await api('/api/sos',{
+      method:'POST',
+      body:JSON.stringify({latitude:lastCoords?.lat??null,longitude:lastCoords?.lng??null})
+    });
+    showToast('SOS event recorded','The server saved this demo emergency event. No real services are contacted.');
+  }catch(e){showToast('Login required','Sign in before triggering the demo workflow.')}
+}
+
+initAuth();
+</script>
+</body>
+</html>
