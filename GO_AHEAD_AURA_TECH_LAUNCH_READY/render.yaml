@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: go-ahead-aura-tech
-    runtime: node
-    buildCommand: npm ci
-    startCommand: npm start
-    envVars:
-      - key: NODE_VERSION
-        value: 22
